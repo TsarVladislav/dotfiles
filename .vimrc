@@ -1,4 +1,4 @@
-"вообще не трогай, а то цвета работать не будут
+""вообще не трогай, а то цвета работать не будут
 set nocompatible
 set re=1
 set t_Co=256
@@ -47,26 +47,31 @@ Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'ervandew/supertab'
-Plug 'nvie/vim-flake8',{'for': 'py'}
-Plug 'justmao945/vim-clang', {'for': 'c'}
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
+"Plug 'nvie/vim-flake8',{'for': 'py'}
+"Plug 'justmao945/vim-clang', {'for': 'c'}
+Plug 'maralla/completor.vim'
+"Plug 'MarcWeber/vim-addon-mw-utils'
+"Plug 'tomtom/tlib_vim'
+
+"Plug 'garbas/vim-snipmate'
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-"Plug 'vim-scripts/cscope.vim'
-Plug 'vim-scripts/AutoComplPop'
 "Plug 'vivien/vim-linux-coding-style'
 call plug#end()
-
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 map <C-n> :NERDTreeToggle<CR>
-filetype on
 filetype plugin on
-
 let g:airline_detect_paste=1
 let g:airline_theme='minimalist'
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+let g:completor_clang_binary = '/usr/bin/clang'
+setlocal foldmethod=marker
+setlocal foldmarker={,}
+set completeopt -=preview
+augroup PreviewOnBottom
+	    autocmd InsertEnter * set splitbelow
+	        autocmd InsertLeave * set splitbelow!
+		augroup END
