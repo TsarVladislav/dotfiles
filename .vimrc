@@ -50,12 +50,13 @@ Plug 'vim-airline/vim-airline-themes'
 "Plug 'nvie/vim-flake8',{'for': 'py'}
 "Plug 'justmao945/vim-clang', {'for': 'c'}
 Plug 'maralla/completor.vim'
+Plug 'vim-syntastic/syntastic'
 "Plug 'MarcWeber/vim-addon-mw-utils'
 "Plug 'tomtom/tlib_vim'
-
 "Plug 'garbas/vim-snipmate'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'rhysd/vim-clang-format'
 "Plug 'vivien/vim-linux-coding-style'
 call plug#end()
 autocmd StdinReadPre * let s:std_in=1
@@ -75,3 +76,24 @@ augroup PreviewOnBottom
 	    autocmd InsertEnter * set splitbelow
 	        autocmd InsertLeave * set splitbelow!
 		augroup END
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_cpp_checkers = [ 'gcc']
+let g:syntastic_cpp_compiler_options = '-std=c++11'
+let g:syntastic_cpp_check_header = 1
+
+
+let g:clang_format#style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "AllowShortIfStatementsOnASingleLine" : "false",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "C++11",
+            \ "BreakBeforeBraces" : "Stroustrup"}
+autocmd FileType c ClangFormatAutoEnable
+
