@@ -51,12 +51,10 @@ Plug 'vim-airline/vim-airline-themes'
 "Plug 'justmao945/vim-clang', {'for': 'c'}
 Plug 'maralla/completor.vim'
 Plug 'vim-syntastic/syntastic'
-"Plug 'MarcWeber/vim-addon-mw-utils'
-"Plug 'tomtom/tlib_vim'
-"Plug 'garbas/vim-snipmate'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'rhysd/vim-clang-format'
+Plug 'tpope/vim-fugitive'
 "Plug 'vivien/vim-linux-coding-style'
 call plug#end()
 autocmd StdinReadPre * let s:std_in=1
@@ -79,7 +77,7 @@ augroup PreviewOnBottom
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
+set statusline+=%{fugitive#statusline()}
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
