@@ -53,8 +53,8 @@ Plug 'maralla/completor.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'rhysd/vim-clang-format'
-Plug 'tpope/vim-fugitive'
+"Plug 'rhysd/vim-clang-format'
+"Plug 'tpope/vim-fugitive'
 "Plug 'vivien/vim-linux-coding-style'
 call plug#end()
 autocmd StdinReadPre * let s:std_in=1
@@ -89,9 +89,10 @@ let g:syntastic_cpp_check_header = 1
 
 let g:clang_format#style_options = {
             \ "AccessModifierOffset" : -4,
+			\ "IndentWidth": 8,
             \ "AllowShortIfStatementsOnASingleLine" : "false",
             \ "AlwaysBreakTemplateDeclarations" : "true",
             \ "Standard" : "C++11",
-            \ "BreakBeforeBraces" : "Stroustrup"}
-autocmd FileType c ClangFormatAutoEnable
+            \ "BreakBeforeBraces" : "Linux"}
+"autocmd FileType c ClangFormatAutoEnable
 
