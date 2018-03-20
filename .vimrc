@@ -53,7 +53,8 @@ Plug 'maralla/completor.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-"Plug 'rhysd/vim-clang-format'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'rhysd/vim-clang-format'
 "Plug 'tpope/vim-fugitive'
 "Plug 'vivien/vim-linux-coding-style'
 call plug#end()
@@ -69,7 +70,7 @@ nmap ga <Plug>(EasyAlign)
 let g:completor_clang_binary = '/usr/bin/clang'
 setlocal foldmethod=marker
 setlocal foldmarker={,}
-set completeopt -=preview
+set completeopt +=preview
 augroup PreviewOnBottom
 	    autocmd InsertEnter * set splitbelow
 	        autocmd InsertLeave * set splitbelow!
