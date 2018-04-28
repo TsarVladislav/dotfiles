@@ -55,6 +55,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'rhysd/vim-clang-format'
+Plug 'mbbill/undotree'
 "Plug 'tpope/vim-fugitive'
 "Plug 'vivien/vim-linux-coding-style'
 call plug#end()
@@ -97,8 +98,6 @@ let g:clang_format#style_options = {
             \ "BreakBeforeBraces" : "Linux"}
 "autocmd FileType c ClangFormatAutoEnable
 
-
-
 " https://toster.ru/q/2061
 " {{{ Locale settings
 " if we have BOM => this is BOM
@@ -114,7 +113,6 @@ if &fileencodings !~? "default"
 endif
 " }}}
 
-
 set fileencodings=utf-8,cp1251,koi8-r,cp866
 
 menu Encoding.koi8-r :e ++enc=koi8-r ++ff=unix<CR>
@@ -123,5 +121,10 @@ menu Encoding.cp866 :e ++enc=cp866 ++ff=dos<CR>
 menu Encoding.utf-8 :e ++enc=utf8<CR>
 menu Encoding.koi8-u :e ++enc=koi8-u ++ff=unix<CR>
 
-map <F8> :emenu Encoding.
 
+if has("persisntent_sudo")
+	set undodir=~/.undodir/
+	set undofile
+endif
+map <F8> :emenu Encoding.
+nnoremap <F2> :UndotreeToggle<cr>
