@@ -13,6 +13,7 @@ set autoindent
 set copyindent
 set nobackup
 set noexpandtab
+set noswapfile
 set lazyredraw
 set list
 set noshowmode
@@ -32,7 +33,7 @@ set showmatch
 
 " выделяет красным цветом символы, вылезающие за границу 80 символов
 "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
+"match OverLength /\%81v.\+/
 set colorcolumn=80
 
 set listchars=eol:←,tab:→-,trail:•,extends:>,precedes:<
@@ -59,10 +60,8 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 filetype plugin on
 
-
 setlocal foldmethod=marker
 setlocal foldmarker={,}
-
 
 " ----- статусбар ----- "
 let g:airline_detect_paste=1
@@ -72,7 +71,6 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 set statusline+=%{fugitive#statusline()}
 
-
 " ----- проверка синтаксиса ----- "
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -81,7 +79,6 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_cpp_checkers = [ 'gcc']
 let g:syntastic_cpp_compiler_options = '-std=c++11'
 let g:syntastic_cpp_check_header = 1
-
 
 " ----- автодополнение ----- "
 set completeopt +=preview
@@ -97,6 +94,14 @@ autocmd InsertLeave * set splitbelow!
 augroup END
 
 
+" ----- Syntastic ----- "
+
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
+
+" ----- Gutentags ----- "
+let g:gutentags_ctags_extra_args = ["-R --c-kinds=+p"]
+
 " ----- Clang Format ----- "
 let g:clang_format#style_options = {
             \ "AccessModifierOffset" : -4,
@@ -105,7 +110,6 @@ let g:clang_format#style_options = {
             \ "AlwaysBreakTemplateDeclarations" : "true",
             \ "Standard" : "C++11",
             \ "BreakBeforeBraces" : "Linux"}
-
 
 " ----- кодировка файла ----- "
 "autocmd FileType c ClangFormatAutoEnable
@@ -135,7 +139,6 @@ if has("persistent_sudo")
 	set undofile
 endif
 
-
 " ----- хоткеи ----- "
 map <F8> :emenu Encoding.
 nnoremap <F2> :UndotreeToggle<cr>
@@ -148,6 +151,6 @@ nnoremap <C-Right> :tabnext<CR>
 
 map <C-n> :NERDTreeToggle<CR>
 
-
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
