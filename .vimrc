@@ -52,7 +52,7 @@ Plug 'honza/vim-snippets'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'rhysd/vim-clang-format'
 Plug 'mbbill/undotree'
-"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 "Plug 'vivien/vim-linux-coding-style'
 call plug#end()
 
@@ -141,8 +141,9 @@ endif
 
 " ----- хоткеи ----- "
 map <F8> :emenu Encoding.
-nnoremap <F2> :UndotreeToggle<cr>
-nnoremap <F3> :pclose<cr>
+nmap <F1> <nop>
+nnoremap <F1> :UndotreeToggle<cr>
+nnoremap <F2> :pclose<cr>
 
 " перемещение по вкладкам
 nnoremap <C-Left> :tabprevious<CR>
