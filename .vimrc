@@ -12,6 +12,7 @@ set cindent
 set autoindent
 set copyindent
 set nobackup
+set hidden
 set noexpandtab
 set noswapfile
 set lazyredraw
@@ -35,7 +36,8 @@ set showmatch
 "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 "match OverLength /\%81v.\+/
 set colorcolumn=80
-
+set backupdir=~/.vim/backups
+set directory=~/.vim/swaps
 set listchars=eol:←,tab:→-,trail:•,extends:>,precedes:<
 
 call plug#begin('~/.vim/plugged')
@@ -53,7 +55,10 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'rhysd/vim-clang-format'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
+"Plug 'hari-rangarajan/CCTree'
 "Plug 'vivien/vim-linux-coding-style'
+Plug 'skywind3000/gutentags_plus'
+Plug 'skywind3000/vim-preview'
 call plug#end()
 
 autocmd StdinReadPre * let s:std_in=1
@@ -81,6 +86,7 @@ let g:syntastic_cpp_compiler_options = '-std=c++11'
 let g:syntastic_cpp_check_header = 1
 
 " ----- автодополнение ----- "
+set completeopt +=menuone
 set completeopt +=preview
 let g:completor_clang_binary = '/usr/bin/clang'
 let g:completor_auto_close_doc = 0
@@ -100,7 +106,20 @@ let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_
 nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
 
 " ----- Gutentags ----- "
-let g:gutentags_ctags_extra_args = ["-R --c-kinds=+p"]
+let g:gutentags_ctags_executable = "uctags"
+let g:gutentags_ctags_extra_args = ["-R --languages=C --c-kinds=+p --exclude=.git "]
+let g:gutentags_generate_on_write = 0
+" enable gtags module
+let g:gutentags_modules = ['ctags', 'gtags_cscope']
+" config project root markers.
+let g:gutentags_project_root = ['.root']
+" generate datebases in my cache directory, prevent gtags files polluting my project
+let g:gutentags_cache_dir = expand('~/.cache/tags')
+
+" forbid gutentags adding gtags databases
+let g:gutentags_auto_add_gtags_cscope = 0
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 " ----- Clang Format ----- "
 let g:clang_format#style_options = {
@@ -143,7 +162,7 @@ endif
 map <F8> :emenu Encoding.
 nmap <F1> <nop>
 nnoremap <F1> :UndotreeToggle<cr>
-nnoremap <F2> :pclose<cr>
+nnoremap <F2> :pclose <cr>
 
 " перемещение по вкладкам
 nnoremap <C-Left> :tabprevious<CR>
@@ -154,4 +173,3 @@ map <C-n> :NERDTreeToggle<CR>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-
