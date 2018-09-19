@@ -36,8 +36,6 @@ set showmatch
 "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 "match OverLength /\%81v.\+/
 set colorcolumn=80
-set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
 set listchars=eol:←,tab:→-,trail:•,extends:>,precedes:<
 
 call plug#begin('~/.vim/plugged')
