@@ -46,7 +46,7 @@ Plug 'vim-airline/vim-airline-themes'
 "Plug 'nvie/vim-flake8',{'for': 'py'}
 "Plug 'justmao945/vim-clang', {'for': 'c'}
 Plug 'maralla/completor.vim'
-Plug 'vim-syntastic/syntastic'
+"Plug 'vim-syntastic/syntastic'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'ludovicchabant/vim-gutentags'
@@ -105,17 +105,18 @@ nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
 
 " ----- Gutentags ----- "
 let g:gutentags_ctags_executable = "uctags"
-let g:gutentags_ctags_extra_args = ["-R --languages=C --c-kinds=+p --exclude=.git "]
-let g:gutentags_generate_on_write = 0
+let g:gutentags_ctags_extra_args = ["-R --languages=C --exclude=.git --c-kinds=+p --fields=+iaS --extras=+q . "]
+let g:gutentags_generate_on_write = 1
 " enable gtags module
 let g:gutentags_modules = ['ctags', 'gtags_cscope']
+let g:gutentags_trace = 1
 " config project root markers.
 let g:gutentags_project_root = ['.root']
 " generate datebases in my cache directory, prevent gtags files polluting my project
 let g:gutentags_cache_dir = expand('~/.cache/tags')
 
 " forbid gutentags adding gtags databases
-let g:gutentags_auto_add_gtags_cscope = 0
+let g:gutentags_auto_add_gtags_cscope = 1
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
