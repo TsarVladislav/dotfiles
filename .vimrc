@@ -43,9 +43,6 @@ Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'nvie/vim-flake8',{'for': 'py'}
-"Plug 'justmao945/vim-clang', {'for': 'c'}
-Plug 'maralla/completor.vim'
 "Plug 'vim-syntastic/syntastic'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -53,10 +50,22 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'rhysd/vim-clang-format'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
-"Plug 'hari-rangarajan/CCTree'
-"Plug 'vivien/vim-linux-coding-style'
 Plug 'skywind3000/gutentags_plus'
-Plug 'skywind3000/vim-preview'
+"Plug 'skywind3000/vim-preview'
+Plug 'Valloric/YouCompleteMe'
+Plug 'rdnetto/YCM-Generator'
+Plug 'jiangmiao/auto-pairs'
+Plug 'rizsotto/Bear'
+"Plug 'maralla/completor.vim'
+augroup load_ycm
+  autocmd!
+    autocmd! InsertEnter *
+            \ call plug#load('YouCompleteMe')     |
+            \ if exists('g:loaded_youcompleteme') |
+            \   call youcompleteme#Enable()       |
+            \ endif                               |
+            \ autocmd! load_ycm
+augroup END
 call plug#end()
 
 autocmd StdinReadPre * let s:std_in=1
@@ -70,26 +79,26 @@ setlocal foldmarker={,}
 let g:airline_detect_paste=1
 let g:airline_theme='minimalist'
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 set statusline+=%{fugitive#statusline()}
 
 " ----- проверка синтаксиса ----- "
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_cpp_checkers = [ 'gcc']
-let g:syntastic_cpp_compiler_options = '-std=c++11'
-let g:syntastic_cpp_check_header = 1
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_cpp_checkers = [ 'gcc']
+"let g:syntastic_cpp_compiler_options = '-std=c++11'
+"let g:syntastic_cpp_check_header = 1
 
 " ----- автодополнение ----- "
 set completeopt +=menuone
 set completeopt +=preview
-let g:completor_clang_binary = '/usr/bin/clang'
-let g:completor_auto_close_doc = 0
-map <tab> <Plug>CompletorCppJumpToPlaceholder
-imap <tab> <Plug>CompletorCppJumpToPlaceholder
+"let g:completor_clang_binary = '/usr/bin/clang'
+"let g:completor_auto_close_doc = 0
+"map <tab> <Plug>CompletorCppJumpToPlaceholder
+"imap <tab> <Plug>CompletorCppJumpToPlaceholder
 
 "" превью снизу, а не сверху
 augroup PreviewOnBottom
@@ -97,19 +106,18 @@ autocmd InsertEnter * set splitbelow
 autocmd InsertLeave * set splitbelow!
 augroup END
 
-
 " ----- Syntastic ----- "
 
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
 
 " ----- Gutentags ----- "
-let g:gutentags_ctags_executable = "uctags"
+let g:gutentags_ctags_executable = "ctags"
 let g:gutentags_ctags_extra_args = ["-R --languages=C --exclude=.git --c-kinds=+p --fields=+iaS --extras=+q . "]
 let g:gutentags_generate_on_write = 1
 " enable gtags module
 let g:gutentags_modules = ['ctags', 'gtags_cscope']
-let g:gutentags_trace = 1
+"let g:gutentags_trace = 1
 " config project root markers.
 let g:gutentags_project_root = ['.root']
 " generate datebases in my cache directory, prevent gtags files polluting my project
@@ -172,3 +180,13 @@ map <C-n> :NERDTreeToggle<CR>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
+let g:ycm_show_diagnostics_ui = 0
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" " better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
