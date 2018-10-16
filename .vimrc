@@ -52,11 +52,12 @@ Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'skywind3000/gutentags_plus'
 "Plug 'skywind3000/vim-preview'
-Plug 'Valloric/YouCompleteMe'
-Plug 'rdnetto/YCM-Generator'
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'rdnetto/YCM-Generator'
 Plug 'jiangmiao/auto-pairs'
+" https://github.com/rizsotto/Bear#build-commands
 Plug 'rizsotto/Bear'
-"Plug 'maralla/completor.vim'
+Plug 'maralla/completor.vim'
 augroup load_ycm
   autocmd!
     autocmd! InsertEnter *
@@ -95,10 +96,10 @@ set statusline+=%{fugitive#statusline()}
 " ----- автодополнение ----- "
 set completeopt +=menuone
 set completeopt +=preview
-"let g:completor_clang_binary = '/usr/bin/clang'
-"let g:completor_auto_close_doc = 0
-"map <tab> <Plug>CompletorCppJumpToPlaceholder
-"imap <tab> <Plug>CompletorCppJumpToPlaceholder
+let g:completor_clang_binary = '/usr/bin/clang'
+let g:completor_auto_close_doc = 0
+map <tab> <Plug>CompletorCppJumpToPlaceholder
+imap <tab> <Plug>CompletorCppJumpToPlaceholder
 
 "" превью снизу, а не сверху
 augroup PreviewOnBottom
@@ -190,3 +191,6 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+
+let g:NERDTreeWinSize=60
