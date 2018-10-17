@@ -23,7 +23,10 @@ set shiftwidth=4
 set so=999
 set laststatus=2
 set clipboard=unnamedplus
+set wildmenu
 
+set autochdir
+set tags=tags;
 syntax enable
 
 "  выделять текущую строку
@@ -51,12 +54,12 @@ Plug 'rhysd/vim-clang-format'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'skywind3000/gutentags_plus'
-"Plug 'skywind3000/vim-preview'
+Plug 'skywind3000/vim-preview'
 "Plug 'Valloric/YouCompleteMe'
 "Plug 'rdnetto/YCM-Generator'
 Plug 'jiangmiao/auto-pairs'
 " https://github.com/rizsotto/Bear#build-commands
-Plug 'rizsotto/Bear'
+"Plug 'rizsotto/Bear'
 Plug 'maralla/completor.vim'
 augroup load_ycm
   autocmd!
@@ -114,11 +117,12 @@ nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
 
 " ----- Gutentags ----- "
 let g:gutentags_ctags_executable = "ctags"
-let g:gutentags_ctags_extra_args = ["-R --languages=C --exclude=.git --c-kinds=+p --fields=+iaS --extras=+q . "]
+let g:gutentags_ctags_extra_args = ["-R --languages=C,C++ --exclude=.git --c-kinds=+p --fields=+iaS --extra=+q . "]
 let g:gutentags_generate_on_write = 1
+let g:gutentags_resolve_symlinks=1
 " enable gtags module
 let g:gutentags_modules = ['ctags', 'gtags_cscope']
-"let g:gutentags_trace = 1
+let g:gutentags_trace = 1
 " config project root markers.
 let g:gutentags_project_root = ['.root']
 " generate datebases in my cache directory, prevent gtags files polluting my project
@@ -182,15 +186,10 @@ map <C-n> :NERDTreeToggle<CR>
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-let g:ycm_show_diagnostics_ui = 0
 
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 " " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
 
 let g:NERDTreeWinSize=60
