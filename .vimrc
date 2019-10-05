@@ -3,8 +3,8 @@ set nocompatible
 set re=1
 set t_Co=256
 
-colorscheme  gruvbox
-set bg=dark
+colorscheme gruvbox
+set background=dark
 
 set number
 set ttyfast
@@ -24,9 +24,9 @@ set so=999
 set laststatus=2
 set clipboard=unnamedplus
 set wildmenu
-
 set autochdir
 set tags=tags;
+set nogdefault
 syntax enable
 
 "  выделять текущую строку
@@ -35,18 +35,13 @@ set cursorline
 " показывать пары для [], {} и ()
 set showmatch
 
-" выделяет красным цветом символы, вылезающие за границу 80 символов
-"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-"match OverLength /\%81v.\+/
 set colorcolumn=80
-set listchars=eol:←,tab:→-,trail:•,extends:>,precedes:<
+set listchars=eol:←,tab:→\ ,trail:•,extends:>,precedes:<
 
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/vim-easy-align'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'vim-syntastic/syntastic'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'ludovicchabant/vim-gutentags'
@@ -55,25 +50,15 @@ Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'skywind3000/gutentags_plus'
 Plug 'skywind3000/vim-preview'
-"Plug 'Valloric/YouCompleteMe'
-"Plug 'rdnetto/YCM-Generator'
-Plug 'jiangmiao/auto-pairs'
-" https://github.com/rizsotto/Bear#build-commands
-"Plug 'rizsotto/Bear'
 Plug 'maralla/completor.vim'
-augroup load_ycm
-  autocmd!
-    autocmd! InsertEnter *
-            \ call plug#load('YouCompleteMe')     |
-            \ if exists('g:loaded_youcompleteme') |
-            \   call youcompleteme#Enable()       |
-            \ endif                               |
-            \ autocmd! load_ycm
-augroup END
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-surround'
+Plug 'miki725/vim-ripgrep'
 call plug#end()
 
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 filetype plugin on
 
 setlocal foldmethod=marker
@@ -83,23 +68,14 @@ setlocal foldmarker={,}
 let g:airline_detect_paste=1
 let g:airline_theme='minimalist'
 set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 set statusline+=%{fugitive#statusline()}
-
-" ----- проверка синтаксиса ----- "
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-"let g:syntastic_cpp_checkers = [ 'gcc']
-"let g:syntastic_cpp_compiler_options = '-std=c++11'
-"let g:syntastic_cpp_check_header = 1
 
 " ----- автодополнение ----- "
 set completeopt +=menuone
 set completeopt +=preview
 let g:completor_clang_binary = '/usr/bin/clang'
+let g:clighter_libclang_file = '/usr/lib/llvm-6.0/lib/libclang.so'
 let g:completor_auto_close_doc = 0
 map <tab> <Plug>CompletorCppJumpToPlaceholder
 imap <tab> <Plug>CompletorCppJumpToPlaceholder
@@ -110,19 +86,15 @@ autocmd InsertEnter * set splitbelow
 autocmd InsertLeave * set splitbelow!
 augroup END
 
-" ----- Syntastic ----- "
-
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
-
 " ----- Gutentags ----- "
 let g:gutentags_ctags_executable = "ctags"
 let g:gutentags_ctags_extra_args = ["-R --languages=C,C++ --exclude=.git --c-kinds=+p --fields=+iaS --extra=+q . "]
-let g:gutentags_generate_on_write = 1
 let g:gutentags_resolve_symlinks=1
+let g:gutentags_generate_on_empty_buffer=0
+let g:gutentags_generate_on_write=0
 " enable gtags module
 let g:gutentags_modules = ['ctags', 'gtags_cscope']
-let g:gutentags_trace = 1
+"let g:gutentags_trace = 1
 " config project root markers.
 let g:gutentags_project_root = ['.root']
 " generate datebases in my cache directory, prevent gtags files polluting my project
@@ -132,15 +104,6 @@ let g:gutentags_cache_dir = expand('~/.cache/tags')
 let g:gutentags_auto_add_gtags_cscope = 1
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-
-" ----- Clang Format ----- "
-let g:clang_format#style_options = {
-            \ "AccessModifierOffset" : -4,
-			\ "IndentWidth": 8,
-            \ "AllowShortIfStatementsOnASingleLine" : "false",
-            \ "AlwaysBreakTemplateDeclarations" : "true",
-            \ "Standard" : "C++11",
-            \ "BreakBeforeBraces" : "Linux"}
 
 " ----- кодировка файла ----- "
 "autocmd FileType c ClangFormatAutoEnable
@@ -163,7 +126,6 @@ menu Encoding.cp866 :e ++enc=cp866 ++ff=dos<CR>
 menu Encoding.utf-8 :e ++enc=utf8<CR>
 menu Encoding.koi8-u :e ++enc=koi8-u ++ff=unix<CR>
 
-
 " ----- undo-tree ----- "
 if has("persistent_sudo")
 	set undodir=~/.undodir/
@@ -175,21 +137,39 @@ map <F8> :emenu Encoding.
 nmap <F1> <nop>
 nnoremap <F1> :UndotreeToggle<cr>
 nnoremap <F2> :pclose <cr>
+nnoremap <F3> :PreviewTag <cr>
+nnoremap <F4> :PreviewSignature! <cr>
 
-" перемещение по вкладкам
+" ----- перемещение по вкладкам ----- "
 nnoremap <C-Left> :tabprevious<CR>
 nnoremap <C-Right> :tabnext<CR>
 
+" ----- netrw ----- "
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
 
-map <C-n> :NERDTreeToggle<CR>
-
+" ----- easyalign ----- "
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-
-" " better key bindings for UltiSnipsExpandTrigger
+" ----- UltSnips ----- "
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
-let g:NERDTreeWinSize=60
+" ----- GitGutter ----- "
+let g:gitgutter_max_signs = 3000
+autocmd BufWritePost * GitGutter
+
+" ----- FZF ----- "
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+
+command! ProjectFiles execute 'Files' s:find_git_root()
+
+" ----- ripgrep ----- "
+" apt install ripgrep
