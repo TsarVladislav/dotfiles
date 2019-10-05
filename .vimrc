@@ -3,6 +3,10 @@ set nocompatible
 set re=1
 set t_Co=256
 
+if &term =~ '256color'
+	set t_ut=
+endif
+
 colorscheme gruvbox
 set background=dark
 
@@ -93,7 +97,7 @@ let g:gutentags_resolve_symlinks=1
 let g:gutentags_generate_on_empty_buffer=0
 let g:gutentags_generate_on_write=0
 " enable gtags module
-let g:gutentags_modules = ['ctags', 'gtags_cscope']
+let g:gutentags_modules = ['ctags', 'cscope']
 "let g:gutentags_trace = 1
 " config project root markers.
 let g:gutentags_project_root = ['.root']
@@ -173,3 +177,6 @@ command! ProjectFiles execute 'Files' s:find_git_root()
 
 " ----- ripgrep ----- "
 " apt install ripgrep
+" apt install cscope
+" apt install ctags
+"
