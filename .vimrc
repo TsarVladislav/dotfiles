@@ -1,182 +1,247 @@
-""вообще не трогай, а то цвета работать не будут
 set nocompatible
 set re=1
 set t_Co=256
 
-if &term =~ '256color'
-	set t_ut=
-endif
+set background=light
+colorscheme PaperColor
 
-colorscheme gruvbox
-set background=dark
-
+" show number of line
 set number
-set ttyfast
-set cindent
-set autoindent
+
+" reload changed file
+set autoread
+
+ " copy the previous indentation on autoindenting
 set copyindent
+
+" do not keep backup files
 set nobackup
+
+" ¯\_(ツ)_/¯
 set hidden
-set noexpandtab
+
+" don't create swap files
 set noswapfile
+
+" redraw not quite often
 set lazyredraw
+
+" show symbols
 set list
-set noshowmode
-set tabstop=4
-set shiftwidth=4
+
+autocmd Filetype python setlocal
+    \ tabstop=4
+    \ softtabstop=4
+    \ shiftwidth=4
+    \ textwidth=79
+    \ expandtab
+    \ autoindent
+    \ fileformat=unix
+
+autocmd Filetype c setlocal
+    \ tabstop=4
+    \ softtabstop=4
+    \ shiftwidth=4
+    \ autoindent
+    \ fileformat=unix
+    \ cindent
+
 set so=999
 set laststatus=2
+
 set clipboard=unnamedplus
 set wildmenu
 set autochdir
-set tags=tags;
 set nogdefault
-syntax enable
-
-"  выделять текущую строку
 set cursorline
 
-" показывать пары для [], {} и ()
+" automatically highlight matching braces/brackets/etc.
 set showmatch
 
+" disable folds by default
+set nofoldenable
+
+" ignore case for searching
+set ignorecase
+
+" do case-sensitive if there's a capital letter
+set smartcase
+
+" open in new tab
+set switchbuf=newtab
+
+" syntax higlight
+syntax on
+
 set colorcolumn=80
-set listchars=eol:←,tab:→\ ,trail:•,extends:>,precedes:<
+set listchars=eol:←,tab:→\ ,trail:•,extends:>,precedes:<,space:␣
 
 call plug#begin('~/.vim/plugged')
+" align parts of code
 Plug 'junegunn/vim-easy-align'
+
+" statusline
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+" snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+
+" Ctags
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'rhysd/vim-clang-format'
-Plug 'mbbill/undotree'
+
+" git
 Plug 'tpope/vim-fugitive'
-Plug 'skywind3000/gutentags_plus'
-Plug 'skywind3000/vim-preview'
-Plug 'maralla/completor.vim'
+
+" show changed lines in vim
 Plug 'airblade/vim-gitgutter'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+
+" color scheme
+Plug 'NLKNguyen/papercolor-theme'
+
+" netrw
 Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-surround'
-Plug 'miki725/vim-ripgrep'
+
+" FZF
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+Plug 'sheerun/vim-polyglot'
+
 call plug#end()
 
 filetype plugin on
 
-setlocal foldmethod=marker
-setlocal foldmarker={,}
+" tabs
+set foldmethod=manual
 
-" ----- статусбар ----- "
+" statusbar
 let g:airline_detect_paste=1
 let g:airline_theme='minimalist'
 set statusline+=%#warningmsg#
 set statusline+=%*
 set statusline+=%{fugitive#statusline()}
 
-" ----- автодополнение ----- "
+" autocomplete
 set completeopt +=menuone
+set completeopt +=longest
 set completeopt +=preview
-let g:completor_clang_binary = '/usr/bin/clang'
-let g:clighter_libclang_file = '/usr/lib/llvm-6.0/lib/libclang.so'
-let g:completor_auto_close_doc = 0
-map <tab> <Plug>CompletorCppJumpToPlaceholder
-imap <tab> <Plug>CompletorCppJumpToPlaceholder
 
-"" превью снизу, а не сверху
+" preview on the bottom
 augroup PreviewOnBottom
 autocmd InsertEnter * set splitbelow
 autocmd InsertLeave * set splitbelow!
 augroup END
 
-" ----- Gutentags ----- "
+" Gutentags
+" see https://www.reddit.com/r/vim/comments/d77t6j/guide_how_to_setup_ctags_with_gutentags_properly/
+let g:gutentags_enabled = 0
+command! -nargs=0 GutentagsClearCache call system('rm ' . g:gutentags_cache_dir . '/*')
 let g:gutentags_ctags_executable = "ctags"
-let g:gutentags_ctags_extra_args = ["-R --languages=C,C++ --exclude=.git --c-kinds=+p --fields=+iaS --extra=+q . "]
+let g:gutentags_modules = ['ctags', 'cscope']
+
+let g:gutentags_ctags_extra_args = [
+                        \ '-R',
+                        \ '--c-kinds=+p',
+                        \ '--fields=+ailmnS',
+                        \ '--tag-relative=yes',
+                        \ '--extra=+l . ',
+                        \]
+let g:gutentags_ctags_exclude = [
+      \ '*.git', '*.svg', '*.hg',
+      \ '*/tests/*',
+      \ 'build',
+      \ 'dist',
+      \ '*sites/*/files/*',
+      \ 'bin',
+      \ 'node_modules',
+      \ 'bower_components',
+      \ 'cache',
+      \ 'compiled',
+      \ 'docs',
+      \ 'example',
+      \ 'bundle',
+      \ 'vendor',
+      \ '*.md',
+      \ '*-lock.json',
+      \ '*.lock',
+      \ '*bundle*.js',
+      \ '*build*.js',
+      \ '.*rc*',
+      \ '*.json',
+      \ '*.min.*',
+      \ '*.map',
+      \ '*.bak',
+      \ '*.zip',
+      \ '*.pyc',
+      \ '*.class',
+      \ '*.sln',
+      \ '*.Master',
+      \ '*.csproj',
+      \ '*.tmp',
+      \ '*.csproj.user',
+      \ '*.cache',
+      \ '*.pdb',
+      \ 'tags*',
+      \ 'cscope.*',
+      \ '*.css',
+      \ '*.less',
+      \ '*.scss',
+      \ '*.exe', '*.dll',
+      \ '*.mp3', '*.ogg', '*.flac',
+      \ '*.swp', '*.swo',
+      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+      \ ]
+
+let g:gutentags_define_advanced_commands = 1
 let g:gutentags_resolve_symlinks=1
+let g:gutentags_generate_on_missing=1
+let g:gutentags_generate_on_new=1
 let g:gutentags_generate_on_empty_buffer=0
 let g:gutentags_generate_on_write=0
-" enable gtags module
-let g:gutentags_modules = ['ctags', 'cscope']
-"let g:gutentags_trace = 1
-" config project root markers.
-let g:gutentags_project_root = ['.root']
-" generate datebases in my cache directory, prevent gtags files polluting my project
+let g:gutentags_modules = ['ctags', 'gtags_cscope']
+let g:gutentags_add_default_project_roots = 0
+let g:gutentags_project_root = ['.root', '.git']
+
+" generate datebases in my cache directory
 let g:gutentags_cache_dir = expand('~/.cache/tags')
 
 " forbid gutentags adding gtags databases
 let g:gutentags_auto_add_gtags_cscope = 1
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+vmap <C-c> "+y
 
-" ----- кодировка файла ----- "
-"autocmd FileType c ClangFormatAutoEnable
-" https://toster.ru/q/2061
-if &fileencodings !~? "ucs-bom"
-	set fileencodings^=ucs-bom
-endif
-if &fileencodings !~? "utf-8"
-	let g:added_fenc_utf8 = 1
-	set fileencodings+=utf-8
-endif
-if &fileencodings !~? "default"
-	set fileencodins+=default
-endif
+" hotkeys
+nnoremap <F2> :cclose <bar> lclose <bar> pclose<CR>
 
-set fileencodings=utf-8,cp1251,koi8-r,cp866
-menu Encoding.koi8-r :e ++enc=koi8-r ++ff=unix<CR>
-menu Encoding.windows-1251 :e ++enc=cp1251 ++ff=dos<CR>
-menu Encoding.cp866 :e ++enc=cp866 ++ff=dos<CR>
-menu Encoding.utf-8 :e ++enc=utf8<CR>
-menu Encoding.koi8-u :e ++enc=koi8-u ++ff=unix<CR>
-
-" ----- undo-tree ----- "
-if has("persistent_sudo")
-	set undodir=~/.undodir/
-	set undofile
-endif
-
-" ----- хоткеи ----- "
-map <F8> :emenu Encoding.
-nmap <F1> <nop>
-nnoremap <F1> :UndotreeToggle<cr>
-nnoremap <F2> :pclose <cr>
-nnoremap <F3> :PreviewTag <cr>
-nnoremap <F4> :PreviewSignature! <cr>
-
-" ----- перемещение по вкладкам ----- "
-nnoremap <C-Left> :tabprevious<CR>
-nnoremap <C-Right> :tabnext<CR>
-
-" ----- netrw ----- "
+" netrw
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
-" ----- easyalign ----- "
+" easyalign
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-" ----- UltSnips ----- "
+" UltSnips
 let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-" ----- GitGutter ----- "
-let g:gitgutter_max_signs = 3000
-autocmd BufWritePost * GitGutter
+" enable this plugin for filetypes, '*' for all files.
+let g:apc_enable_ft = {'*':1}
 
-" ----- FZF ----- "
-function! s:find_git_root()
-  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-endfunction
+" source for dictionary, current or other loaded buffers, see ':help cpt'
+set cpt=.,k,w,b
 
-command! ProjectFiles execute 'Files' s:find_git_root()
+" don't select the first item.
+set completeopt=menu,menuone,noselect
 
-" ----- ripgrep ----- "
-" apt install ripgrep
-" apt install cscope
-" apt install ctags
-"
+" suppress annoy messages.
+set shortmess+=c
