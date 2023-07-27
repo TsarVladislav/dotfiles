@@ -13,3 +13,9 @@ ln -s "$PWD"/.vimrc "$HOME"/.vimrc
 
 rm "$HOME"/.tmux.conf
 ln -s "$PWD"/.tmux.conf "$HOME"/.tmux.conf
+
+# bat
+mkdir -p ~/.local/bin
+ln -s /usr/bin/batcat ~/.local/bin/bat
+
+echo "source $HOME/dotfiles/bashrc"
