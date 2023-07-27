@@ -81,8 +81,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/vim-easy-align'
 
 " statusline
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 
 " snippets
 Plug 'SirVer/ultisnips'
@@ -117,11 +116,16 @@ filetype plugin on
 set foldmethod=manual
 
 " statusbar
-let g:airline_detect_paste=1
-let g:airline_theme='minimalist'
-set statusline+=%#warningmsg#
-set statusline+=%*
-set statusline+=%{fugitive#statusline()}
+let g:lightline = {
+    \ 'colorscheme': 'PaperColor',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+\ }
 
 " autocomplete
 set completeopt +=menuone
