@@ -18,4 +18,4 @@ ln -s "$PWD"/.tmux.conf "$HOME"/.tmux.conf
 mkdir -p ~/.local/bin
 ln -s /usr/bin/batcat ~/.local/bin/bat
 
-echo "source $HOME/dotfiles/bashrc"
+echo "source $HOME/dotfiles/bashrc" >> $HOME/.bashrc
