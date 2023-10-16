@@ -42,6 +42,7 @@ autocmd Filetype c setlocal
     \ tabstop=4
     \ softtabstop=4
     \ shiftwidth=4
+    \ textwidth=79
     \ autoindent
     \ fileformat=unix
     \ cindent
@@ -108,6 +109,7 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'sheerun/vim-polyglot'
 
+Plug 'skywind3000/gutentags_plus'
 call plug#end()
 
 filetype plugin on
@@ -150,7 +152,6 @@ let g:gutentags_ctags_extra_args = [
                         \ '--c-kinds=+p',
                         \ '--fields=+ailmnS',
                         \ '--tag-relative=yes',
-                        \ '--extra=+l . ',
                         \]
 let g:gutentags_ctags_exclude = [
       \ '*.git', '*.svg', '*.hg',
@@ -249,3 +250,17 @@ set completeopt=menu,menuone,noselect
 
 " suppress annoy messages.
 set shortmess+=c
+
+augroup update_bat_theme
+    autocmd!
+    autocmd colorscheme * call ToggleBatEnvVar()
+augroup end
+function ToggleBatEnvVar()
+    if (&background == "light")
+        let $BAT_THEME='gruvbox-light'
+    else
+        let $BAT_THEME=''
+    endif
+endfunction
+
+let g:netrw_keepdir = 0

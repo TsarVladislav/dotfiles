@@ -14,5 +14,8 @@ gitch()
     git submodule foreach -q --recursive 'branch="$(git config -f $toplevel/.gitmodules submodule.$name.branch)"; git switch $branch'
 }
 
+# for preview window in vim
+export BAT_THEME=gruvbox-light
+
 # show branch name. May not work in Fedora
 export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:$(__git_ps1 "\[\e[1;33m\](%s)\[\e[0m"\]) \[\033[01;34m\]\w\[\033[00m\]\$ '
