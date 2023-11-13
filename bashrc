@@ -1,5 +1,7 @@
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+source ~/.bash_git
+
 batdiff() {
     git diff --name-only --relative --diff-filter=d | xargs bat --diff
 }
@@ -15,7 +17,10 @@ gitch()
 }
 
 # for preview window in vim
-export BAT_THEME=gruvbox-light
+export BAT_THEME=gruvbox-dark
+
+# fix colors https://github.com/mliszcz/dotfiles/commit/29357f27c49ee7bf956bc81218ec258a5640fe86
+export MANROFFOPT="-c"
 
 # show branch name. May not work in Fedora
-export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:$(__git_ps1 "\[\e[1;33m\](%s)\[\e[0m"\]) \[\033[01;34m\]\w\[\033[00m\]\$ '
+# export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:$(__git_ps1 "\[\e[1;33m\](%s)\[\e[0m"\]) \[\033[01;34m\]\w\[\033[00m\]\$ '
