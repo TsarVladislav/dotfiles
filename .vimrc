@@ -1,6 +1,6 @@
 set nocompatible
 "set re=1
-"set t_Co=256
+set t_Co=256
 
 " colors
 set background=dark
