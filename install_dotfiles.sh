@@ -24,4 +24,7 @@ ln -s "$PWD"/.tmux.conf "$HOME"/.tmux.conf
 mkdir -p ~/.local/bin
 ln -s /usr/bin/batcat ~/.local/bin/bat
 
+rm "$HOME"/.config/fish/config.fish
+ln -s "$PWD"/config.fish "$HOME"/.config/fish/config.fish
+
 echo "source $HOME/dotfiles/bashrc" >> $HOME/.bashrc
