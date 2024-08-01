@@ -87,6 +87,7 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'sheerun/vim-polyglot'         " color the code
 Plug 'skywind3000/gutentags_plus'   " cscope
+Plug 'junegunn/goyo.vim'
 call plug#end()
 
 " statusbar
@@ -221,3 +222,10 @@ let g:gutentags_cache_dir = expand('~/.cache/tags') " generate datebases in my c
 let g:gutentags_auto_add_gtags_cscope = 1
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
+function! s:goyo_enter()
+  let g:goyo_width = 100
+  set nu
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
