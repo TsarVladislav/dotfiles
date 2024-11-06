@@ -87,7 +87,8 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'sheerun/vim-polyglot'         " color the code
 Plug 'skywind3000/gutentags_plus'   " cscope
-Plug 'junegunn/goyo.vim'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
 call plug#end()
 
 " statusbar
@@ -223,9 +224,5 @@ let g:gutentags_auto_add_gtags_cscope = 1
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
-function! s:goyo_enter()
-  let g:goyo_width = 100
-  set nu
-endfunction
-
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
+let g:session_autoload = 'no'
+let g:session_autosave = 'no'
